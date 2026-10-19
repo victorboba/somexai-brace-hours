@@ -1,0 +1,99 @@
+name: BraceHours
+options:
+  bundleIdPrefix: com.example
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+  generateEmptyDirectories: true
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: ""
+targets:
+  BraceHours:
+    type: application
+    platform: iOS
+    sources:
+      - path: BraceHours
+      - path: Shared
+    dependencies:
+      - target: BraceHoursWidget
+        embed: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brace-hours
+        TARGETED_DEVICE_FAMILY: "1"
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_ENTITLEMENTS: BraceHours/BraceHours.entitlements
+    info:
+      path: BraceHours/Info.plist
+      properties:
+        CFBundleDisplayName: Brace Hours
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        ITSAppUsesNonExemptEncryption: false
+        NSSupportsLiveActivities: true
+  BraceHoursWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: BraceHoursWidget
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brace-hours.widget
+        TARGETED_DEVICE_FAMILY: "1"
+        CODE_SIGN_ENTITLEMENTS: BraceHoursWidget/BraceHoursWidget.entitlements
+        SKIP_INSTALL: YES
+    info:
+      path: BraceHoursWidget/Info.plist
+      properties:
+        CFBundleDisplayName: Brace Hours Widget
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+  BraceHoursTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: BraceHoursTests
+    dependencies:
+      - target: BraceHours
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brace-hours.tests
+        GENERATE_INFOPLIST_FILE: YES
+  BraceHoursUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: BraceHoursUITests
+    dependencies:
+      - target: BraceHours
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.example.brace-hours.uitests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: BraceHours
+schemes:
+  BraceHours:
+    build:
+      targets:
+        BraceHours: all
+        BraceHoursTests: [test]
+        BraceHoursUITests: [test]
+    run:
+      config: Debug
+      storeKitConfiguration: BraceHours/StoreKit/Products.storekit
+    test:
+      config: Debug
+      storeKitConfiguration: BraceHours/StoreKit/Products.storekit
+      targets:
+        - BraceHoursTests
+        - BraceHoursUITests
+    archive:
+      config: Release
